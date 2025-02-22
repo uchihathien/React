@@ -1,35 +1,37 @@
-import React from 'react';
-class AddUserInfor extends React.Component{
-    state = {
-        Name: "",
-        Age: ""
-    }
-    handleOnSubmit = (event) => {
-        event.preventDefault();//ngăn việc tải lại trang
-        //console.log(this.state)
-        this.props.handleAddnewUser({
-            id: Math.floor((Math.random() * 100) + 1) + "user",
-            Name: this.state.Name,
-            Age: this.state.Age
-        })
-    }
+import React, { useState } from 'react'
 
-    render(){
-        return(
-            <div>
-                <form action="" onSubmit={(event) => this.handleOnSubmit(event)}>
-                <input type="text" 
-                    value={this.state.Name}
-                    onChange={(event) => this.setState({Name: event.target.value})} />
-                    <input type="text"
-                    value={this.state.Age}
-                    onChange={(event) => this.setState({Age: event.target.value})}
-                    
-          />
-                    <button>Submit</button>
-                </form>
-            </div>
-        )
-    }
+export default function AddUserInfor(props) {
+  const [name, setName] = useState('')
+  const [age, setAge] = useState(0)
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    props.handleAddnewUser({
+      id: Math.floor((Math.random() * 100) + 1) + "user",
+      Name: name,
+      Age: age
+    })
+  }
+
+  const handleUpdateName = (event) => {
+    setName(event.target.value)
+  }
+
+  const handleUpdateAge = (event) => {
+    setAge(event.target.value)
+  }
+
+  return (
+    <div>
+      <form action="" onSubmit={(event) => { handleOnSubmit(event) }}>
+        Your name: <input type="text" onChange={(event) => handleUpdateName(event)} />
+        <br />
+        Your age: <input type="text" onChange={(event) => handleUpdateAge(event)} />
+        <br />
+        <button>Submit</button>
+      </form>
+      
+      <button onClick={props.handleDeleteAll}>Delete All</button>
+    </div>
+  )
 }
-export default AddUserInfor;
